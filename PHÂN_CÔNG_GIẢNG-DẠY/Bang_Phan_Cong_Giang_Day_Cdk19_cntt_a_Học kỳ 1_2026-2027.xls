@@ -1,0 +1,148 @@
+﻿
+            <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+            <head>
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                <!--[if gte mso 9]>
+                <xml>
+                    <x:ExcelWorkbook>
+                        <x:ExcelWorksheets>
+                            <x:ExcelWorksheet>
+                                <x:Name>PhanCongGiangDay</x:Name>
+                                <x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions>
+                            </x:ExcelWorksheet>
+                        </x:ExcelWorksheets>
+                    </x:ExcelWorkbook>
+                </xml>
+                <![endif]-->
+                <style>
+                    th { background-color: #f1f5f9; font-weight: bold; border: 1px solid #cbd5e1; padding: 6px; }
+                    td { border: 1px solid #cbd5e1; padding: 6px; }
+                    .gv-header { background-color: #fef08a; font-weight: bold; }
+                    .text-center { text-align: center; }
+                </style>
+            </head>
+            <body>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>TT</th>
+                            <th>Lớp</th>
+                            <th>Sĩ số</th>
+                            <th>Mã MH, MĐ</th>
+                            <th>Tên môn học, mô đun</th>
+                            <th>Số tín chỉ</th>
+                            <th>Số giờ</th>
+                            <th>LT</th>
+                            <th>TH</th>
+                            <th>KT</th>
+                            <th>Phòng/Xưởng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        
+                <tr class="gv-header">
+                    <td class="text-center">1</td>
+                    <td colspan="5" style="font-weight: bold; color: #1e3a8a;">Nguyễn Lê Ngọc Thành</td>
+                    <td class="text-center" style="font-weight: bold;">150</td>
+                    <td></td><td></td><td></td><td></td>
+                </tr>
+            
+                    <tr>
+                        <td></td>
+                        <td>CĐK19 CNTT A</td>
+                        <td class="text-center">35</td>
+                        <td>CNTT5D2529</td>
+                        <td>Xây dựng trang web với ReactJS</td>
+                        <td class="text-center">3</td>
+                        <td class="text-center">75</td>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+                
+                    <tr>
+                        <td></td>
+                        <td>CĐK20 CNTT A</td>
+                        <td class="text-center">27</td>
+                        <td>CNTT5D2529</td>
+                        <td>Xây dựng trang web với ReactJS</td>
+                        <td class="text-center">3</td>
+                        <td class="text-center">75</td>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+                
+                <tr class="gv-header">
+                    <td class="text-center">2</td>
+                    <td colspan="5" style="font-weight: bold; color: #1e3a8a;">Huỳnh Thị Hồng Sinh</td>
+                    <td class="text-center" style="font-weight: bold;">75</td>
+                    <td></td><td></td><td></td><td></td>
+                </tr>
+            
+                    <tr>
+                        <td></td>
+                        <td>CĐK19 CNTT A</td>
+                        <td class="text-center">35</td>
+                        <td>CNTT5D2517</td>
+                        <td>Lập trình C#.NET</td>
+                        <td class="text-center">3</td>
+                        <td class="text-center">75</td>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+                
+                <tr class="gv-header">
+                    <td class="text-center">3</td>
+                    <td colspan="5" style="font-weight: bold; color: #1e3a8a;">Lê Thị Hòa</td>
+                    <td class="text-center" style="font-weight: bold;">75</td>
+                    <td></td><td></td><td></td><td></td>
+                </tr>
+            
+                    <tr>
+                        <td></td>
+                        <td>CĐK20 CNTT A</td>
+                        <td class="text-center">27</td>
+                        <td>CNTT5D2517</td>
+                        <td>Lập trình C#.NET</td>
+                        <td class="text-center">3</td>
+                        <td class="text-center">75</td>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+                
+                <tr class="gv-header">
+                    <td class="text-center">4</td>
+                    <td colspan="5" style="font-weight: bold; color: #1e3a8a;">Lê Thị Kim Oanh</td>
+                    <td class="text-center" style="font-weight: bold;">75</td>
+                    <td></td><td></td><td></td><td></td>
+                </tr>
+            
+                    <tr>
+                        <td></td>
+                        <td>CĐK20 CNTT A</td>
+                        <td class="text-center">27</td>
+                        <td>CNTT5D2508</td>
+                        <td>Lập trình C</td>
+                        <td class="text-center">3</td>
+                        <td class="text-center">75</td>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+                
+                <tr class="gv-header">
+                    <td class="text-center">5</td>
+                    <td colspan="5" style="font-weight: bold; color: #1e3a8a;">Nguyễn Thị Bích Hà</td>
+                    <td class="text-center" style="font-weight: bold;">30</td>
+                    <td></td><td></td><td></td><td></td>
+                </tr>
+            
+                    <tr>
+                        <td></td>
+                        <td>CĐK20 CNTT A</td>
+                        <td class="text-center">27</td>
+                        <td>CNTT5H2507</td>
+                        <td>An toàn lao động</td>
+                        <td class="text-center">2</td>
+                        <td class="text-center">30</td>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+                
+                    </tbody>
+                </table>
+            </body>
+            </html>
+        
