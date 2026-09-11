@@ -35,18 +35,18 @@ export const SPECIAL_ACCOUNTS = {
     'GV023': { role: 'GIANG_VIEN', name: 'Trì Thị Kim Hồng', title: 'Giảng viên', chuyenNganh: 'Tiếng Anh' }
 };
 
-// Hàm chuẩn hóa và xác định quyền hạn người dùng
+// Hàm chuẩn hóa và xác định quyền hạn người dùng (Đã bít kín lỗ hổng không trả về mặc định)
 export const getUserRole = (user) => {
     if (!user) return 'GUEST';
 
     const maDN = (user.MADN || user.username || user.maGV || '').toString().trim().toUpperCase();
     const rawUserLower = (user.username || user.MADN || '').toString().trim().toLowerCase();
 
-    // 1. Kiểm tra đối chiếu trực tiếp theo mã GV / username
+    // 1. Kiểm tra đối chiếu trực tiếp theo mã GV / username trong danh sách chuẩn
     if (SPECIAL_ACCOUNTS[maDN]) return SPECIAL_ACCOUNTS[maDN].role;
     if (SPECIAL_ACCOUNTS[rawUserLower]) return SPECIAL_ACCOUNTS[rawUserLower].role;
 
-    // 2. Kiểm tra fallback theo chuỗi role lưu trong session
+    // 2. Kiểm tra fallback theo chuỗi role lưu trong session (nếu có định nghĩa rõ ràng)
     const rawRole = (user.role || '').toString().trim().toLowerCase();
     if (rawRole.includes('trưởng khoa') || rawRole.includes('truong_khoa') || rawRole.includes('truongkhoa')) {
         return 'TRUONG_KHOA';
@@ -57,8 +57,12 @@ export const getUserRole = (user) => {
     if (rawRole.includes('thư ký') || rawRole.includes('thu_ky') || rawRole.includes('thuky')) {
         return 'THU_KY';
     }
+    if (rawRole.includes('giang_vien') || rawRole.includes('giáo viên')) {
+        return 'GIANG_VIEN';
+    }
 
-    return 'GIANG_VIEN';
+    // 🛑 CHỐT CHẶN TUYỆT ĐỐI: Không cho phép lọt qua nếu không khớp danh sách thực tế
+    return 'GUEST';
 };
 
 // Hàm kiểm tra quyền hạn truy cập

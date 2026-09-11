@@ -1,6 +1,28 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SPECIAL_ACCOUNTS, getUserRole } from '../utils/authRoles';
+
+// DANH SÁCH 19 TÀI KHOẢN CHUẨN XÁC TỪ CƠ SỞ DỮ LIỆU SQL
+const STRICT_WHITELIST = {
+    'GV001': { name: 'Nguyễn Lê Ngọc Thành', role: 'GIANG_VIEN', title: 'Giảng viên' },
+    'GV002': { name: 'Lê Thị Kim Oanh', role: 'GIANG_VIEN', title: 'Giảng viên' },
+    'GV003': { name: 'Nguyễn Văn Đại', role: 'GIANG_VIEN', title: 'Giảng viên' },
+    'GV004': { name: 'Đinh Thị Thu', role: 'GIANG_VIEN', title: 'Giảng viên' },
+    'GV005': { name: 'Nguyễn Giang Long', role: 'GIANG_VIEN', title: 'Giảng viên' },
+    'GV006': { name: 'Lương Thanh Long', role: 'GIANG_VIEN', title: 'Giảng viên' },
+    'GV007': { name: 'Lê Thị Hòa', role: 'GIANG_VIEN', title: 'Giảng viên' },
+    'GV008': { name: 'Lê Tấn Hòa', role: 'GIANG_VIEN', title: 'Giảng viên' },
+    'GV010': { name: 'Nguyễn Bích Hà', role: 'GIANG_VIEN', title: 'Giảng viên' },
+    'GV012': { name: 'Nguyễn Thị Thanh Thắng', role: 'GIANG_VIEN', title: 'Giảng viên' },
+    'GV014': { name: 'Huỳnh Thị Hồng Sinh', role: 'GIANG_VIEN', title: 'Giảng viên' },
+    'GV018': { name: 'Trần Hiếu Nghĩa', role: 'TRUONG_KHOA', title: 'Trưởng khoa' },
+    'GV019': { name: 'Dư Vĩ Bằng', role: 'GIANG_VIEN', title: 'Giảng viên' },
+    'GV020': { name: 'Đào Thị Thúy Dung', role: 'GIANG_VIEN', title: 'Giảng viên' },
+    'GV021': { name: 'Thái Thiên Ân', role: 'GIANG_VIEN', title: 'Giảng viên' },
+    'GV022': { name: 'Bùi Thị Thu Hà', role: 'GIANG_VIEN', title: 'Giảng viên' },
+    'GV023': { name: 'Trì Thị Kim Hồng', role: 'GIANG_VIEN', title: 'Giảng viên' },
+    'GV024': { name: 'Trần Ngọc Hoài Thương', role: 'GIANG_VIEN', title: 'Giảng viên' },
+    'GV025': { name: 'Lê Đức An', role: 'THU_KY', title: 'Thư ký' }
+};
 
 const Login = () => {
     const navigate = useNavigate();
@@ -14,57 +36,48 @@ const Login = () => {
         setErrorMessage('');
 
         const userKey = username.trim();
-
         if (!userKey) {
             setErrorMessage('Vui lòng nhập Tên đăng nhập hoặc Mã GV!');
             return;
         }
 
-        // 1. Kiểm tra tài khoản trong danh mục SPECIAL_ACCOUNTS
-        const userFound = SPECIAL_ACCOUNTS[userKey] || SPECIAL_ACCOUNTS[userKey.toUpperCase()] || SPECIAL_ACCOUNTS[userKey.toLowerCase()];
+        const upperKey = userKey.toUpperCase();
 
-        let userInfo = null;
+        // 🛑 CHỐT CHẶN BẢO MẬT: Chỉ cho phép các mã có trong danh sách chuẩn SQL
+        const userFound = STRICT_WHITELIST[userKey] || STRICT_WHITELIST[upperKey];
 
-        if (userFound) {
-            userInfo = {
-                MADN: userKey.startsWith('GV') ? userKey.toUpperCase() : (userKey === 'truongkhoa' ? 'GV018' : userKey === 'thuky' ? 'GV025' : 'GV001'),
-                HOTEN: userFound.name,
-                name: userFound.name,
-                role: userFound.role,
-                title: userFound.title,
-                chuyenNganh: userFound.chuyenNganh
-            };
-        } else {
-            // Trường hợp tài khoản tự do nhập
-            userInfo = {
-                MADN: userKey,
-                HOTEN: userKey,
-                name: userKey,
-                role: vaiTro === 'Trưởng khoa' ? 'TRUONG_KHOA' : vaiTro === 'Thư ký' ? 'THU_KY' : 'GIANG_VIEN',
-                title: vaiTro
-            };
+        if (!userFound) {
+            // Cấm tuyệt đối, không lưu LocalStorage, đứng yên tại chỗ và hiện cảnh báo
+            setErrorMessage('Tài khoản này không hợp lệ');
+            return;
         }
 
-        // 2. Lưu phiên đăng nhập vào localStorage
-        localStorage.setItem('currentUser', JSON.stringify(userInfo));
+        // Nếu hợp lệ, tạo phiên làm việc chuẩn xác
+        const userInfo = {
+            MADN: upperKey,
+            HOTEN: userFound.name,
+            name: userFound.name,
+            role: userFound.role,
+            title: userFound.title
+        };
 
-        // 3. Điều hướng ngay lập tức vào Dashboard
+        localStorage.setItem('currentUser', JSON.stringify(userInfo));
         navigate('/dashboard');
     };
 
-    // Hàm tiện ích: Bấm vào tài khoản demo để điền nhanh và đăng nhập
-    const handleQuickLogin = (demoUser, roleName) => {
-        setUsername(demoUser);
-        setPassword('123');
-        setVaiTro(roleName);
+    const handleQuickLogin = (demoKey) => {
+        const userFound = STRICT_WHITELIST[demoKey];
+        if (!userFound) {
+            setErrorMessage('Tài khoản này không hợp lệ');
+            return;
+        }
 
-        const userFound = SPECIAL_ACCOUNTS[demoUser];
         const userInfo = {
-            MADN: demoUser === 'truongkhoa' ? 'GV018' : demoUser === 'thuky' ? 'GV025' : 'GV001',
-            HOTEN: userFound?.name || demoUser,
-            name: userFound?.name || demoUser,
-            role: userFound?.role || 'GIANG_VIEN',
-            title: userFound?.title || roleName
+            MADN: demoKey,
+            HOTEN: userFound.name,
+            name: userFound.name,
+            role: userFound.role,
+            title: userFound.title
         };
 
         localStorage.setItem('currentUser', JSON.stringify(userInfo));
@@ -74,27 +87,22 @@ const Login = () => {
     return (
         <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4">
             <div className="bg-white rounded-3xl shadow-xl w-full max-w-md overflow-hidden border border-slate-200">
-                
-                {/* Header Form */}
                 <div className="bg-[#3B82F6] p-6 text-center text-white">
                     <h1 className="text-xl font-black text-[#FFD700] uppercase tracking-wider">
-                        HỆ THỐNG QUẢN LÝ KHOA
+                        HỆ THỐNG QUẢN LÝ KHOA ĐIỆN TỬ - TIN HỌC
                     </h1>
                     <p className="text-xs font-semibold text-blue-100 mt-1 uppercase tracking-wide">
-                        Đăng nhập hệ thống
+                        Đăng nhập hệ thống bảo mật
                     </p>
                 </div>
 
-                {/* Body Form */}
                 <form onSubmit={handleLogin} className="p-6 md:p-8 space-y-5">
-                    
                     {errorMessage && (
-                        <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold text-center">
+                        <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-black text-center shadow-sm">
                             {errorMessage}
                         </div>
                     )}
 
-                    {/* Chọn vai trò */}
                     <div className="space-y-1.5">
                         <label className="text-xs font-black text-slate-700 uppercase tracking-wide">
                             VAI TRÒ TRUY CẬP (*)
@@ -110,7 +118,6 @@ const Login = () => {
                         </select>
                     </div>
 
-                    {/* Tên đăng nhập */}
                     <div className="space-y-1.5">
                         <label className="text-xs font-black text-slate-700 uppercase tracking-wide">
                             TÊN ĐĂNG NHẬP / MÃ GV (*)
@@ -118,14 +125,13 @@ const Login = () => {
                         <input
                             type="text"
                             required
-                            placeholder="Nhập mã GV (GV018, GV001...) hoặc username"
+                            placeholder="Nhập mã GV (GV001, GV018...)"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
                         />
                     </div>
 
-                    {/* Mật khẩu */}
                     <div className="space-y-1.5">
                         <label className="text-xs font-black text-slate-700 uppercase tracking-wide">
                             MẬT KHẨU (*)
@@ -140,7 +146,6 @@ const Login = () => {
                         />
                     </div>
 
-                    {/* Nút đăng nhập */}
                     <button
                         type="submit"
                         className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-black text-sm rounded-2xl shadow-lg shadow-blue-500/30 transition transform active:scale-98 uppercase tracking-wider"
@@ -148,7 +153,6 @@ const Login = () => {
                         ĐĂNG NHẬP
                     </button>
 
-                    {/* Khối tài khoản demo nhanh */}
                     <div className="pt-4 border-t border-slate-100 space-y-2">
                         <span className="text-[11px] font-bold text-slate-500 block">
                             Tài khoản demo nhanh (bấm để vào trực tiếp):
@@ -156,28 +160,27 @@ const Login = () => {
                         <div className="grid grid-cols-3 gap-2">
                             <button
                                 type="button"
-                                onClick={() => handleQuickLogin('truongkhoa', 'Trưởng khoa')}
+                                onClick={() => handleQuickLogin('GV018')}
                                 className="py-2 px-2 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-xl text-[11px] font-extrabold border border-amber-200 transition text-center"
                             >
                                 🏛️ Trưởng khoa
                             </button>
                             <button
                                 type="button"
-                                onClick={() => handleQuickLogin('thuky', 'Thư ký')}
+                                onClick={() => handleQuickLogin('GV025')}
                                 className="py-2 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-800 rounded-xl text-[11px] font-extrabold border border-indigo-200 transition text-center"
                             >
                                 📝 Thư ký
                             </button>
                             <button
                                 type="button"
-                                onClick={() => handleQuickLogin('giaovien', 'Giáo viên')}
+                                onClick={() => handleQuickLogin('GV001')}
                                 className="py-2 px-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-xl text-[11px] font-extrabold border border-emerald-200 transition text-center"
                             >
                                 🎓 Giáo viên
                             </button>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>
