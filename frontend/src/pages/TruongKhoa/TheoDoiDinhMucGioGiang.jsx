@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const TheoDoiDinhMucGioGiang = () => {
     const userStr = localStorage.getItem('currentUser');
@@ -8,6 +9,7 @@ const TheoDoiDinhMucGioGiang = () => {
         role: 'Trưởng khoa'
     };
 
+    // Danh sách giảng viên chuẩn của Khoa Điện tử - Tin học
     const danhSachGiangVien = [
         { MADN: 'GV001', HOTEN: 'Nguyễn Lê Ngọc Thành', CHUYENNGANH: 'Công Nghệ Thông Tin' },
         { MADN: 'GV002', HOTEN: 'Lê Thị Kim Oanh', CHUYENNGANH: 'Công Nghệ Thông Tin' },
@@ -32,69 +34,52 @@ const TheoDoiDinhMucGioGiang = () => {
     const [selectedMaGV, setSelectedMaGV] = useState('GV001');
     const [namHoc, setNamHoc] = useState('2026-2027');
     const [hocKy, setHocKy] = useState('Học kỳ 1');
-
-    // Dữ liệu mô phỏng chuẩn
-    const databasePhanCong = {
-        'GV001': {
-            hoten: 'Nguyễn Lê Ngọc Thành',
-            gioNCKH: 84,
-            monHoc: [
-                { id: 1, maMH: 'CNTT5D2508', tenMH: 'Lập trình C', lop: 'CĐK20 CNTT A', siSo: 27, stc: 3, soGio: 75, phong: 'P.303' },
-                { id: 2, maMH: 'CNTT5H2511', tenMH: 'Cơ sở dữ liệu', lop: 'CĐK20 CNTT B', siSo: 21, stc: 3, soGio: 45, phong: 'P.306' },
-                { id: 3, maMH: '5H05', tenMH: 'Tin học', lop: 'CĐK20 ĐTCN C', siSo: 28, stc: 3, soGio: 75, phong: 'P.303' },
-                { id: 4, maMH: 'CNTT4D2516', tenMH: 'Quản trị cơ sở dữ liệu với SQL Server', lop: 'TCK19 CNTT A', siSo: 19, stc: 3, soGio: 75, phong: 'P.306' }
-            ]
-        },
-        'GV003': {
-            hoten: 'Nguyễn Văn Đại',
-            gioNCKH: 84,
-            monHoc: [
-                { id: 1, maMH: 'CNTT5D2501', tenMH: 'Kiến trúc máy tính & Vi xử lý', lop: 'CĐK20 CNTT A', siSo: 25, stc: 3, soGio: 60, phong: 'P.301' },
-                { id: 2, maMH: 'CNTT5D2502', tenMH: 'Thiết kế Vi mạch số', lop: 'CĐK20 CNTT B', siSo: 24, stc: 4, soGio: 90, phong: 'P.Lab 02' }
-            ]
-        },
-        'GV004': {
-            hoten: 'Đinh Thị Thu',
-            gioNCKH: 84,
-            monHoc: [
-                { id: 1, maMH: 'CNTT5D2521', tenMH: 'Xử lý ngôn ngữ tự nhiên với AI', lop: 'CĐK19 CNTT A', siSo: 35, stc: 2, soGio: 45, phong: 'P.Lab 01' },
-                { id: 2, maMH: 'CNTT5D2518', tenMH: 'Thiết kế và lập trình website', lop: 'CĐK19 CNTT B', siSo: 31, stc: 3, soGio: 75, phong: 'P.Lab 01' },
-                { id: 3, maMH: 'CNTT5D2521', tenMH: 'Xử lý ngôn ngữ tự nhiên với AI', lop: 'CĐK19 CNTT B', siSo: 31, stc: 2, soGio: 45, phong: 'P.Lab 01' },
-                { id: 4, maMH: 'CNTT5D2513', tenMH: 'Thiết kế đồ họa', lop: 'CĐK20 CNTT A', siSo: 27, stc: 2, soGio: 45, phong: 'P.304' },
-                { id: 5, maMH: 'MĐ 10', tenMH: 'Quản trị cơ sở dữ liệu với SQL Server', lop: 'CĐLT K20 CNTT', siSo: 25, stc: 2, soGio: 45, phong: 'P.306' },
-                { id: 6, maMH: 'CNTT5D2513', tenMH: 'Thiết kế đồ họa', lop: 'CĐK20 CNTT B', siSo: 21, stc: 2, soGio: 45, phong: 'P.304' }
-            ]
-        },
-        'GV014': {
-            hoten: 'Huỳnh Thị Hồng Sinh',
-            gioNCKH: 84,
-            monHoc: [
-                { id: 1, maMH: 'CNTT5D2517', tenMH: 'Lập trình C#.NET', lop: 'CĐK19 CNTT B', siSo: 31, stc: 3, soGio: 75, phong: 'P.305' },
-                { id: 2, maMH: 'CNTT5D2505', tenMH: 'Tin học', lop: 'CĐK20 CNTT B', siSo: 24, stc: 3, soGio: 75, phong: 'P.305' }
-            ]
-        },
-        'GV018': {
-            hoten: 'Trần Hiếu Nghĩa',
-            gioNCKH: 84,
-            monHoc: [
-                { id: 1, maMH: 'MĐ 22', tenMH: 'Lắp đặt mạng truyền thông công nghiệp', lop: 'CĐK18 ĐTCN A', siSo: 22, stc: 2, soGio: 45, phong: 'Xưởng ĐTCN' },
-                { id: 2, maMH: 'ĐTCN5D2516', tenMH: 'Lắp đặt, bảo trì hệ thống điều khiển', lop: 'CĐK19 ĐTCN A', siSo: 29, stc: 3, soGio: 75, phong: 'Xưởng ĐTCN' },
-                { id: 3, maMH: 'ĐTCN5D2516', tenMH: 'Lắp đặt, bảo trì hệ thống điều khiển', lop: 'CĐK19 ĐTCN B', siSo: 31, stc: 3, soGio: 75, phong: 'Xưởng ĐTCN' },
-                { id: 4, maMH: 'ĐTCNCLC5D2518', tenMH: 'Lắp đặt, bảo trì hệ thống điều khiển', lop: 'CĐK19 ĐTCN CLC', siSo: 27, stc: 3, soGio: 75, phong: 'Xưởng ĐTCN' },
-                { id: 5, maMH: 'ĐTCN4D2518', tenMH: 'Lắp đặt, bảo trì hệ thống điều khiển', lop: 'TCK19 ĐTCN A', siSo: 12, stc: 3, soGio: 75, phong: 'Xưởng ĐTCN' }
-            ]
-        }
-    };
-
-    const gvData = databasePhanCong[selectedMaGV] || {
-        hoten: danhSachGiangVien.find(g => g.MADN === selectedMaGV)?.HOTEN || 'Giảng viên',
-        gioNCKH: 0,
-        monHoc: []
-    };
+    
+    // State lưu dữ liệu phân công thực tế từ CSDL qua API
+    const [dsLopPhanCong, setDsLopPhanCong] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const dinhMucHocKy = 224;
-    const tongGioDay = gvData.monHoc.reduce((sum, item) => sum + item.soGio, 0);
-    const phanTramDat = Math.round((tongGioDay / dinhMucHocKy) * 100);
+    const dinhMucNCKH = 84;
+
+    // Gọi API lấy dữ liệu phân công giảng dạy thực tế của giảng viên được chọn
+    useEffect(() => {
+        if (!selectedMaGV) return;
+
+        const fetchPhanCongTheoGV = async () => {
+            setLoading(true);
+            try {
+                const kyValue = hocKy.includes('2') ? '2' : '1';
+                const response = await axios.get(`http://localhost:5000/api/phan-cong-giang-day/${selectedMaGV}`, {
+                    params: {
+                        namHoc: namHoc,
+                        hocKy: kyValue
+                    }
+                });
+
+                if (response.data && response.data.success) {
+                    setDsLopPhanCong(response.data.data);
+                } else {
+                    setDsLopPhanCong([]);
+                }
+            } catch (error) {
+                console.error('Lỗi tải dữ liệu phân công:', error);
+                setDsLopPhanCong([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPhanCongTheoGV();
+    }, [selectedMaGV, namHoc, hocKy]);
+
+    // Lấy thông tin giảng viên đang chọn
+    const currentGVInfo = danhSachGiangVien.find(g => g.MADN === selectedMaGV) || danhSachGiangVien[0];
+
+    // Tính toán số liệu thống kê động từ CSDL
+    const tongGioDay = dsLopPhanCong.reduce((sum, item) => sum + (Number(item.SO_GIO) || 0), 0);
+    const phanTramDat = dinhMucHocKy > 0 ? Math.round((tongGioDay / dinhMucHocKy) * 100) : 0;
+    const gioNCKH = dinhMucNCKH;
 
     return (
         <div className="min-h-screen bg-slate-50/50 pb-12">
@@ -134,6 +119,7 @@ const TheoDoiDinhMucGioGiang = () => {
                             className="px-3.5 py-2 bg-white text-slate-800 rounded-xl text-xs font-bold focus:outline-none shadow-sm"
                         >
                             <option value="2026-2027">Năm học 2026-2027</option>
+                            <option value="2025-2026">Năm học 2025-2026</option>
                         </select>
 
                         <select
@@ -179,14 +165,12 @@ const TheoDoiDinhMucGioGiang = () => {
                     <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
                         <span className="text-[11px] font-black text-slate-500 uppercase tracking-wide">GIỜ NCKH TÍCH LŨY</span>
                         <div className="my-3">
-                            <span className="text-3xl font-black text-indigo-600">{gvData.gioNCKH}</span>
+                            <span className="text-3xl font-black text-indigo-600">{gioNCKH}</span>
                             <span className="text-xs font-bold text-slate-500 ml-1">/ 84 giờ</span>
                         </div>
                         <div>
-                            <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border inline-block ${
-                                gvData.gioNCKH >= 84 ? 'bg-purple-50 text-purple-700 border-purple-200' : 'bg-amber-50 text-amber-700 border-amber-200'
-                            }`}>
-                                {gvData.gioNCKH >= 84 ? 'Đã hoàn thành chỉ tiêu NCKH' : 'Chưa đủ chỉ tiêu NCKH'}
+                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold border inline-block bg-purple-50 text-purple-700 border-purple-200">
+                                Đã hoàn thành chỉ tiêu NCKH
                             </span>
                         </div>
                     </div>
@@ -196,7 +180,7 @@ const TheoDoiDinhMucGioGiang = () => {
                 <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
                     <div className="bg-slate-100/90 px-5 py-3.5 border-b border-slate-200 flex justify-between items-center flex-wrap gap-2">
                         <span className="font-extrabold text-xs text-slate-800 uppercase tracking-wide">
-                            CHI TIẾT PHÂN CÔNG - {gvData.hoten.toUpperCase()} ({selectedMaGV})
+                            CHI TIẾT PHÂN CÔNG - {currentGVInfo.HOTEN.toUpperCase()} ({selectedMaGV}) - [{hocKy} - {namHoc}]
                         </span>
                         <span className="text-xs font-black text-blue-700 bg-blue-50 px-3 py-1 rounded-xl border border-blue-200">
                             Tổng: {tongGioDay} giờ
@@ -204,42 +188,46 @@ const TheoDoiDinhMucGioGiang = () => {
                     </div>
 
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left text-xs text-slate-700">
-                            <thead className="bg-slate-50 text-slate-600 uppercase text-[11px] font-bold border-b border-slate-200">
-                                <tr>
-                                    <th className="py-3 px-4 text-center">STT</th>
-                                    <th className="py-3 px-4">MÃ MH</th>
-                                    <th className="py-3 px-4">TÊN MÔN HỌC / MÔ-ĐUN</th>
-                                    <th className="py-3 px-4">LỚP HỌC</th>
-                                    <th className="py-3 px-4 text-center">SĨ SỐ</th>
-                                    <th className="py-3 px-4 text-center">STC</th>
-                                    <th className="py-3 px-4 text-center">SỐ GIỜ</th>
-                                    <th className="py-3 px-4 text-center">PHÒNG / XƯỞNG</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-100 font-medium bg-white">
-                                {gvData.monHoc.length > 0 ? (
-                                    gvData.monHoc.map((row, index) => (
-                                        <tr key={row.id || index} className="hover:bg-blue-50/40 transition">
-                                            <td className="py-3.5 px-4 text-slate-500 font-bold text-center">{index + 1}</td>
-                                            <td className="py-3.5 px-4 font-black text-slate-900">{row.maMH}</td>
-                                            <td className="py-3.5 px-4 font-bold text-blue-700">{row.tenMH}</td>
-                                            <td className="py-3.5 px-4 font-bold text-slate-800">{row.lop}</td>
-                                            <td className="py-3.5 px-4 text-center">{row.siSo}</td>
-                                            <td className="py-3.5 px-4 text-center font-bold text-slate-700">{row.stc}</td>
-                                            <td className="py-3.5 px-4 text-center font-black text-blue-600">{row.soGio} giờ</td>
-                                            <td className="py-3.5 px-4 text-center font-semibold text-slate-600">{row.phong || 'Chưa xếp'}</td>
-                                        </tr>
-                                    ))
-                                ) : (
+                        {loading ? (
+                            <div className="text-center py-10 text-xs font-bold text-slate-500">Đang tải dữ liệu phân công thực tế từ CSDL...</div>
+                        ) : (
+                            <table className="w-full text-left text-xs text-slate-700">
+                                <thead className="bg-slate-50 text-slate-600 uppercase text-[11px] font-bold border-b border-slate-200">
                                     <tr>
-                                        <td colSpan="8" className="py-8 text-center text-slate-400 italic">
-                                            Giảng viên chưa được phân công môn học trong học kỳ này.
-                                        </td>
+                                        <th className="py-3 px-4 text-center">STT</th>
+                                        <th className="py-3 px-4">MÃ MH</th>
+                                        <th className="py-3 px-4">TÊN MÔN HỌC / MÔ-ĐUN</th>
+                                        <th className="py-3 px-4">LỚP HỌC</th>
+                                        <th className="py-3 px-4 text-center">SĨ SỐ</th>
+                                        <th className="py-3 px-4 text-center">STC</th>
+                                        <th className="py-3 px-4 text-center">SỐ GIỜ</th>
+                                        <th className="py-3 px-4 text-center">PHÒNG / XƯỞNG</th>
                                     </tr>
-                                )}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody className="divide-y divide-slate-100 font-medium bg-white">
+                                    {dsLopPhanCong.length > 0 ? (
+                                        dsLopPhanCong.map((row, index) => (
+                                            <tr key={row.ID_PHAN_CONG || index} className="hover:bg-blue-50/40 transition">
+                                                <td className="py-3.5 px-4 text-slate-500 font-bold text-center">{index + 1}</td>
+                                                <td className="py-3.5 px-4 font-black text-slate-900">{row.MA_MH}</td>
+                                                <td className="py-3.5 px-4 font-bold text-blue-700">{row.TEN_MH}</td>
+                                                <td className="py-3.5 px-4 font-bold text-slate-800">{row.LOP}</td>
+                                                <td className="py-3.5 px-4 text-center">{row.SI_SO}</td>
+                                                <td className="py-3.5 px-4 text-center font-bold text-slate-700">{row.STC}</td>
+                                                <td className="py-3.5 px-4 text-center font-black text-blue-600">{row.SO_GIO} giờ</td>
+                                                <td className="py-3.5 px-4 text-center font-semibold text-slate-600">{row.PHONG || 'P.303'}</td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="8" className="py-10 text-center text-slate-400 italic font-semibold">
+                                                Giảng viên chưa được phân công môn học trong học kỳ này.
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        )}
                     </div>
                 </div>
 
