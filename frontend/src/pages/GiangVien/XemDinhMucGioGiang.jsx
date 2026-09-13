@@ -172,4 +172,4 @@ const XemDinhMucGioGiang = () => {
     );
 };
 
-exports.default = XemDinhMucGioGiang; // Nếu dự án của chị dùng export default tiêu chuẩn, dòng này giữ nguyên là export default XemDinhMucGioGiang;
+export default XemDinhMucGioGiang; // Nếu dự án của chị dùng export default tiêu chuẩn, dòng này giữ nguyên là export default XemDinhMucGioGiang;
