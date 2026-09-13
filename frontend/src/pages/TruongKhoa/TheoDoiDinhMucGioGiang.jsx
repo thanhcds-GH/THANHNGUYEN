@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../api/axiosClient';
 
 const TheoDoiDinhMucGioGiang = () => {
     const userStr = localStorage.getItem('currentUser');
@@ -50,7 +50,7 @@ const TheoDoiDinhMucGioGiang = () => {
             setLoading(true);
             try {
                 const kyValue = hocKy.includes('2') ? '2' : '1';
-                const response = await axios.get(`http://localhost:5000/api/phan-cong-giang-day/${selectedMaGV}`, {
+                const response = await api.get(`/api/phan-cong-giang-day/${selectedMaGV}`, {
                     params: {
                         namHoc: namHoc,
                         hocKy: kyValue
@@ -209,7 +209,7 @@ const TheoDoiDinhMucGioGiang = () => {
                                         dsLopPhanCong.map((row, index) => (
                                             <tr key={row.ID_PHAN_CONG || index} className="hover:bg-blue-50/40 transition">
                                                 <td className="py-3.5 px-4 text-slate-500 font-bold text-center">{index + 1}</td>
-                                                <td className="py-3.5 px-4 font-black text-slate-900">{row.MA_MH}</td>
+                                                <td className="py-3.5 px-4 font-black text-slate-900">{row.MA_MH_PC}</td>
                                                 <td className="py-3.5 px-4 font-bold text-blue-700">{row.TEN_MH}</td>
                                                 <td className="py-3.5 px-4 font-bold text-slate-800">{row.LOP}</td>
                                                 <td className="py-3.5 px-4 text-center">{row.SI_SO}</td>
