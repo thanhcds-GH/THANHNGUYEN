@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../api/axiosClient';
 
 const XemDinhMucGioGiang = () => {
     // 1. Lấy thông tin giảng viên đang đăng nhập từ Session Storage / Local Storage
@@ -29,7 +29,7 @@ const XemDinhMucGioGiang = () => {
                 // Chuyển đổi tên học kỳ thành định dạng số ('Học kỳ 1' -> '1') khớp với CSDL
                 const kyValue = selectedHocKy.includes('2') ? '2' : '1';
                 
-                const response = await axios.get(`http://localhost:5000/api/phan-cong-giang-day/${currentMaGV}`, {
+                const response = await api.get(`/api/phan-cong-giang-day/${currentMaGV}`, {
                     params: {
                         namHoc: selectedNamHoc,
                         hocKy: kyValue
@@ -43,7 +43,6 @@ const XemDinhMucGioGiang = () => {
                 }
             } catch (error) {
                 console.error('Lỗi khi tải dữ liệu phân công giảng dạy:', error);
-                // Fallback dữ liệu mẫu nếu chưa kết nối được backend
                 setDsLopPhanCong([]);
             } finally {
                 setLoading(false);
@@ -55,7 +54,7 @@ const XemDinhMucGioGiang = () => {
 
     // 4. Tính toán tổng giờ thực dạy động theo dữ liệu trả về từ SQL
     const tongGioThucDay = dsLopPhanCong.reduce((sum, item) => sum + (Number(item.SO_GIO) || 0), 0);
-    const tongGioNCKH = 84; // Có thể liên kết API NCKH sau nếu cần
+    const tongGioNCKH = 84; 
     const phanTramGioDay = dinhMucChuan.GIO_DAY_DINH_MUC_KY > 0 
         ? Math.round((tongGioThucDay / dinhMucChuan.GIO_DAY_DINH_MUC_KY) * 100) 
         : 0;
@@ -155,7 +154,7 @@ const XemDinhMucGioGiang = () => {
                                 {dsLopPhanCong.map((row, index) => (
                                     <tr key={index} className="hover:bg-blue-50/40 transition">
                                         <td className="py-3.5 px-4 text-slate-500 font-bold">{index + 1}</td>
-                                        <td className="py-3.5 px-4 font-bold text-slate-900">{row.MA_MH}</td>
+                                        <td className="py-3.5 px-4 font-bold text-slate-900">{row.MA_MH_PC}</td>
                                         <td className="py-3.5 px-4 font-bold text-blue-700">{row.TEN_MH}</td>
                                         <td className="py-3.5 px-4 font-semibold text-slate-800">{row.LOP}</td>
                                         <td className="py-3.5 px-4 text-center">{row.SI_SO}</td>
@@ -173,4 +172,4 @@ const XemDinhMucGioGiang = () => {
     );
 };
 
-export default XemDinhMucGioGiang;
+exports.default = XemDinhMucGioGiang; // Nếu dự án của chị dùng export default tiêu chuẩn, dòng này giữ nguyên là export default XemDinhMucGioGiang;
