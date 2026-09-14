@@ -18,9 +18,10 @@ const TeacherNavbar = () => {
             <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-14">
                 
                 {/* Brand / Logo */}
-                <Link to="/dashboard" className="font-black text-[#FFD700] text-sm md:text-base uppercase tracking-wider">
-                    HỆ THỐNG QUẢN LÝ HOẠT ĐỘNG KHOA ĐIỆN TỬ - TIN HỌC
-                </Link>
+                <Link to="/dashboard" className="flex flex-col items-center text-center font-black text-[#FFD700] text-xs md:text-sm uppercase tracking-wider leading-tight">
+        <span>HỆ THỐNG QUẢN LÝ HOẠT ĐỘNG</span>
+        <span>KHOA ĐIỆN TỬ - TIN HỌC</span>
+             </Link>
 
                 {/* Danh mục menu theo quyền */}
                 <div className="hidden md:flex items-center space-x-1 text-xs font-bold">
@@ -35,9 +36,7 @@ const TeacherNavbar = () => {
                     <Link to="/import-lich-day" className="px-3 py-2 rounded-lg hover:bg-blue-700 transition">
                         Import lịch dạy
                     </Link>
-                    <Link to="/tra-cuu-diem-danh" className="px-3 py-2 rounded-lg hover:bg-blue-700 transition">
-                        Điểm danh
-                    </Link>
+                    
 
                     {/* Menu riêng cho Thư ký khoa & Trưởng khoa */}
                     {(userRole === 'THU_KY' || userRole === 'TRUONG_KHOA') && (
@@ -59,9 +58,9 @@ const TeacherNavbar = () => {
                             <Link to="/phan-cong-giang-day" className="px-3 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition">
                                 Phân công giảng dạy
                             </Link>
-                            <Link to="/quan-ly-mon-hoc" className="px-3 py-2 rounded-lg hover:bg-blue-700 transition">
+                           {/* <Link to="/quan-ly-mon-hoc" className="px-3 py-2 rounded-lg hover:bg-blue-700 transition">
                                 Môn học
-                            </Link>
+                            </Link> */}
                         </>
                     )}
 
