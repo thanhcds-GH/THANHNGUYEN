@@ -43,7 +43,7 @@ const TeacherNavbar = () => {
                         <>
                             <span className="text-blue-400 font-normal">|</span>
                             <Link to="/theo-doi-de-tai-nckh" className="px-3 py-2 rounded-lg bg-indigo-700 text-[#FFD700] hover:bg-indigo-800 transition">
-                                Thẩm định NCKH
+                                Theo dõi & Giám sát NCKH
                             </Link>
                             <Link to="/quan-ly-cong-van" className="px-3 py-2 rounded-lg hover:bg-blue-700 transition">
                                 Công văn

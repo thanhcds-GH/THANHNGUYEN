@@ -129,7 +129,7 @@ const TheoDoiDeTaiNCKH = () => {
                 <div className="bg-[#3B82F6] rounded-2xl p-5 shadow-md flex flex-col sm:flex-row items-center justify-between border-b border-blue-400 gap-3">
                     <div>
                         <h2 className="text-lg md:text-xl font-black text-[#FFD700] tracking-wide uppercase">
-                            THEO DÕI & PHÊ DUYỆT ĐỀ TÀI NGHIÊN CỨU KHOA HỌC TOÀN KHOA
+                            THEO DÕI & GIÁM SÁT ĐỀ TÀI NGHIÊN CỨU KHOA HỌC TOÀN KHOA
                         </h2>
                         <p className="text-xs text-blue-100 font-semibold mt-1">
                             Người thẩm định: <span className="text-white font-bold">{currentUser.HOTEN || currentUser.name}</span> ({currentMaGV}) 

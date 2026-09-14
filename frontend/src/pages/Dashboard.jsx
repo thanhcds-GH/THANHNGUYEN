@@ -114,7 +114,7 @@ const Dashboard = () => {
                                         Theo dõi, giám sát Đề tài NCKH toàn khoa
                                     </h3>
                                     <p className="text-xs text-indigo-700/80 mt-1 leading-relaxed">
-                                        Phê duyệt kết quả Hội đồng thẩm định và xuất báo cáo Excel/PDF.
+                                        Kết quả phê duyệt Hội đồng thẩm định và xuất báo cáo Excel/PDF.
                                     </p>
                                 </div>
                                 <span className="text-xs font-bold text-indigo-600 mt-4 flex items-center gap-1">

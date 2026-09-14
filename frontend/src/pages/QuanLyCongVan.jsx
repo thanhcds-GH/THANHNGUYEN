@@ -110,7 +110,7 @@ const QuanLyCongVan = () => {
             
             {/* THANH BANNER TIÊU ĐỀ PHÂN HỆ */}
             <div className="bg-linear-to-r from-blue-700 to-indigo-800 text-white p-6 rounded-2xl shadow-md">
-                <h1 className="text-xl font-bold tracking-wide uppercase">Hệ thống Quản lý KPI Giảng viên</h1>
+                <h1 className="text-xl font-bold text-[#FFD700] tracking-wide uppercase">Hệ thống Quản lý hoạt động Khoa Điện tử - Tin học</h1>
                 <p className="text-xs text-blue-100 mt-1 opacity-90">
                     Phân hệ văn phòng khoa: Tiếp nhận Công văn & Giám sát các hoạt động Triệu tập hành chính (`CONG_VAN`)
                 </p>

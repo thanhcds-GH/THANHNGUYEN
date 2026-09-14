@@ -192,15 +192,18 @@ const QuanLyPhanCong = ({ isOpen = true, onClose }) => {
                 { TEN_LOP: 'CĐK20 CNTT B', SI_SO: 27, KHOA: 'ĐT-TH', TEN_NGHE: 'Công nghệ thông tin (UDPM)', HE_DAO_TAO: 'Cao đẳng' },
                 { TEN_LOP: 'CĐK19 CNTT A', SI_SO: 35, KHOA: 'ĐT-TH', TEN_NGHE: 'Công nghệ thông tin (UDPM)', HE_DAO_TAO: 'Cao đẳng' },
                 { TEN_LOP: 'CĐK19 CNTT B', SI_SO: 31, KHOA: 'ĐT-TH', TEN_NGHE: 'Công nghệ thông tin (UDPM)', HE_DAO_TAO: 'Cao đẳng' },
-                { TEN_LOP: 'CĐK20 ĐTCN A', SI_SO: 36, KHOA: 'ĐT-TH', TEN_NGHE: 'Điện tử công nghiệp', HE_DAO_TAO: 'Cao đẳng' },
-                { TEN_LOP: 'CĐK20 ĐTCN B', SI_SO: 36, KHOA: 'ĐT-TH', TEN_NGHE: 'Điện tử công nghiệp', HE_DAO_TAO: 'Cao đẳng' },
+                { TEN_LOP: 'CĐK19 ĐTCN A', SI_SO: 36, KHOA: 'ĐT-TH', TEN_NGHE: 'Điện tử công nghiệp', HE_DAO_TAO: 'Cao đẳng' },
+                { TEN_LOP: 'CĐK19 ĐTCN B', SI_SO: 36, KHOA: 'ĐT-TH', TEN_NGHE: 'Điện tử công nghiệp', HE_DAO_TAO: 'Cao đẳng' },
+                { TEN_LOP: 'CĐK19 ĐTCN CLC', SI_SO: 36, KHOA: 'ĐT-TH', TEN_NGHE: 'Điện tử công nghiệp', HE_DAO_TAO: 'Cao đẳng' },
                 { TEN_LOP: 'CĐK20 ĐTCN CLC', SI_SO: 36, KHOA: 'ĐT-TH', TEN_NGHE: 'Điện tử công nghiệp', HE_DAO_TAO: 'Cao đẳng' },
+                { TEN_LOP: 'CĐK20 ĐTCN B', SI_SO: 36, KHOA: 'ĐT-TH', TEN_NGHE: 'Điện tử công nghiệp', HE_DAO_TAO: 'Cao đẳng' },
+                { TEN_LOP: 'CĐK20 ĐTCN C', SI_SO: 36, KHOA: 'ĐT-TH', TEN_NGHE: 'Điện tử công nghiệp', HE_DAO_TAO: 'Cao đẳng' },
                 { TEN_LOP: 'CĐK20 KTSCLRMT A', SI_SO: 29, KHOA: 'ĐT-TH', TEN_NGHE: 'KTSC,LRMT', HE_DAO_TAO: 'Cao đẳng' },
                 { TEN_LOP: 'TCK20 CNTT A', SI_SO: 28, KHOA: 'ĐT-TH', TEN_NGHE: 'Công nghệ thông tin (UDPM)', HE_DAO_TAO: 'Trung cấp' },
                 { TEN_LOP: 'TCK20 ĐTCN A', SI_SO: 26, KHOA: 'ĐT-TH', TEN_NGHE: 'Công nghệ thông tin (UDPM)', HE_DAO_TAO: 'Trung cấp' },
                 { TEN_LOP: 'TCK19 CNTT A', SI_SO: 19, KHOA: 'ĐT-TH', TEN_NGHE: 'Công nghệ thông tin (UDPM)', HE_DAO_TAO: 'Trung cấp' },
                 { TEN_LOP: 'TCK19 ĐTCN A', SI_SO: 25, KHOA: 'ĐT-TH', TEN_NGHE: 'Điện tử công nghiệp', HE_DAO_TAO: 'Trung cấp' },
-                { TEN_LOP: 'TCK19 KTSCLRMT A', SI_SO: 27, KHOA: 'ĐT-TH', TEN_NGHE: 'Điện tử công nghiệp', HE_DAO_TAO: 'Trung cấp' }
+                { TEN_LOP: 'TCK19 KTSCLRMT A', SI_SO: 27, KHOA: 'ĐT-TH', TEN_NGHE: 'KTSC,LRMT', HE_DAO_TAO: 'Trung cấp' }
             ];
             setAllLopHoc(fullLopHoc);
 
