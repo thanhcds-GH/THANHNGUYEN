@@ -19,7 +19,7 @@ const TeacherNavbar = () => {
                 
                 {/* Brand / Logo */}
                 <Link to="/dashboard" className="font-black text-[#FFD700] text-sm md:text-base uppercase tracking-wider">
-                    HỆ THỐNG KPI & QUẢN LÝ KHOA
+                    HỆ THỐNG QUẢN LÝ HOẠT ĐỘNG KHOA ĐIỆN TỬ - TIN HỌC
                 </Link>
 
                 {/* Danh mục menu theo quyền */}
