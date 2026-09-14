@@ -89,7 +89,7 @@ const Login = () => {
             <div className="bg-white rounded-3xl shadow-xl w-full max-w-md overflow-hidden border border-slate-200">
                 <div className="bg-[#3B82F6] p-6 text-center text-white">
                     <h1 className="text-xl font-black text-[#FFD700] uppercase tracking-wider">
-                        HỆ THỐNG QUẢN LÝ KHOA ĐIỆN TỬ - TIN HỌC
+                        HỆ THỐNG QUẢN LÝ HOẠT ĐỘNG KHOA ĐIỆN TỬ - TIN HỌC
                     </h1>
                     <p className="text-xs font-semibold text-blue-100 mt-1 uppercase tracking-wide">
                         Đăng nhập hệ thống bảo mật
