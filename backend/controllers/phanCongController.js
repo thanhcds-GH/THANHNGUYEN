@@ -59,33 +59,33 @@ exports.getPhanCongTheoLop = async (req, res) => {
         request.input('NamHoc', sql.NVarChar(50), cleanNH);
 
         const query = `
-            SELECT
-                pc.ID_PHAN_CONG AS ID,
-                LTRIM(RTRIM(CAST(pc.MA_MH_MD AS NVARCHAR(50)))) AS MA_MH_MD,
-                ISNULL(dm.TEN_MH_MD, LTRIM(RTRIM(CAST(pc.MA_MH_MD AS NVARCHAR(100))))) AS TEN_MH_MD,
-                ISNULL(dm.SO_TIN_CHI, 3) AS STC,
-                pc.GIO_DAY_THEO_PHAN_CONG AS SO_GIO,
-                ISNULL(dm.SO_GIO_LT, 0) AS LT,
-                ISNULL(dm.SO_GIO_TH, 0) AS TH,
-                gv.MA_GIANGVIEN AS MA_GIANGVIEN,
-                gv.MADN AS MA_GIANGVIEN_DN,
-                gv.HOTEN AS TEN_GIANGVIEN,
-                gv.BO_MON,
-                LTRIM(RTRIM(pc.TENLOP)) AS TEN_LOP,
-                pc.HOCKY AS HOC_KY,
-                LTRIM(RTRIM(pc.NAMHOC)) AS NAM_HOC,
-                pc.SISO_HSSV AS SI_SO,
-                pc.TRANG_THAI,
-                pc.NGUOI_PHAN_CONG,
-                pc.NGAY_PHAN_CONG
-            FROM dbo.PHAN_CONG_GIANG_DAY pc
-            LEFT JOIN dbo.GIANG_VIEN gv ON pc.MA_GIANGVIEN = gv.MA_GIANGVIEN
-            OUTER APPLY (
-                SELECT TOP 1 TEN_MH_MD, SO_TIN_CHI, SO_GIO_LT, SO_GIO_TH
-                FROM dbo.DANH_MUC_MH_MODUN
-                WHERE LTRIM(RTRIM(MA_MH_MD)) = LTRIM(RTRIM(CAST(pc.MA_MH_MD AS NVARCHAR(50))))
-            ) dm
-            WHERE REPLACE(CAST(pc.TENLOP AS NVARCHAR(100)), N' ', N'') LIKE REPLACE(@TenLop, N' ', N'')
+          SELECT 
+    pc.ID_PHAN_CONG AS ID,
+    LTRIM(RTRIM(CAST(pc.MA_MH_MD AS NVARCHAR(50)))) AS MA_MH_MD,
+    ISNULL(LTRIM(RTRIM(CAST(dm.TEN_MH_MD AS NVARCHAR(200)))), LTRIM(RTRIM(CAST(pc.MA_MH_MD AS NVARCHAR(200))))) AS TEN_MH_MD,
+    ISNULL(dm.SO_TIN_CHI, 3) AS STC,
+    pc.GIO_DAY_THEO_PHAN_CONG AS SO_GIO,
+    ISNULL(dm.SO_GIO_LT, 0) AS LT,
+    ISNULL(dm.SO_GIO_TH, 0) AS TH,
+    gv.MA_GIANGVIEN AS MA_GIANGVIEN,
+    gv.MADN AS MA_GIANGVIEN_DN,
+    gv.HOTEN AS TEN_GIANGVIEN,
+    gv.BO_MON,
+    LTRIM(RTRIM(pc.TENLOP)) AS TEN_LOP,
+    pc.HOCKY AS HOC_KY,
+    LTRIM(RTRIM(pc.NAMHOC)) AS NAM_HOC,
+    pc.SISO_HSSV AS SI_SO,
+    pc.TRANG_THAI,
+    pc.NGUOI_PHAN_CONG,
+    pc.NGAY_PHAN_CONG
+FROM dbo.PHAN_CONG_GIANG_DAY pc
+LEFT JOIN dbo.GIANG_VIEN gv ON pc.MA_GIANGVIEN = gv.MA_GIANGVIEN
+OUTER APPLY (
+    SELECT TOP 1 TEN_MH_MD, SO_TIN_CHI, SO_GIO_LT, SO_GIO_TH
+    FROM dbo.DANH_MUC_MH_MODUN m
+    WHERE m.MA_MH_MD COLLATE Latin1_General_CI_AI = pc.MA_MH_MD COLLATE Latin1_General_CI_AI
+) dm
+  WHERE REPLACE(CAST(pc.TENLOP AS NVARCHAR(100)), N' ', N'') LIKE REPLACE(@TenLop, N' ', N'')
               AND pc.HOCKY = @HocKy
               AND pc.NAMHOC LIKE @NamHoc
             ORDER BY pc.ID_PHAN_CONG ASC
