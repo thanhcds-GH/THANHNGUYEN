@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import api from '../../api/axiosClient'; // 👈 Import module api chuẩn từ thư mục api
+import api from '../../api/axiosClient'; // Sửa lại đúng đường dẫn trỏ tới thư mục api chứa axiosClient.js
 
 const ImportLichDay = () => {
     const [danhSachGiangVien, setDanhSachGiangVien] = useState([]);
@@ -14,7 +14,7 @@ const ImportLichDay = () => {
     useEffect(() => {
         const fetchGiangVien = async () => {
             try {
-                // Sử dụng api client (tự động gắn baseURL theo môi trường Vercel hoặc localhost)
+                // Sử dụng instance 'api' đã cấu hình sẵn baseURL và tự nhận diện Vercel / Localhost
                 const res = await api.get('/api/lecturers'); 
                 const data = Array.isArray(res.data) ? res.data : res.data.data || [];
                 setDanhSachGiangVien(data);
@@ -47,14 +47,14 @@ const ImportLichDay = () => {
         try {
             setLoading(true);
             
-            // Sử dụng api client. Interceptor trong axiosClient sẽ tự động xóa 'Content-Type' 
-            // để trình duyệt sinh boundary chuẩn cho FormData.
+            // Gửi request thông qua api client. 
+            // Interceptor trong axiosClient sẽ tự động xử lý xóa Content-Type để FormData nhận diện chuẩn file.
             const response = await api.post('/api/lich-day/import-excel', formData);
 
             if (response.data.success) {
                 alert(response.data.message);
                 
-                // Làm sạch trạng thái và reset thẻ input vật lý về rỗng
+                // Làm sạch trạng thái lưu trữ và reset thẻ input vật lý về rỗng
                 setFileExcel(null);
                 if (fileInputRef.current) {
                     fileInputRef.current.value = '';
@@ -71,7 +71,7 @@ const ImportLichDay = () => {
     return (
         <div className="max-w-xl mx-auto my-10 bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-100">
             
-            {/* BANNER HEADER */}
+            {/* BANNER HEADER - KHỐI TIÊU ĐỀ HỆ THỐNG */}
             <div className="bg-blue-600 px-6 py-5 text-center">
                 <h2 className="text-xl font-extrabold uppercase tracking-widest text-[#FFD700]">
                     Nạp tiến độ giảng dạy học phần
