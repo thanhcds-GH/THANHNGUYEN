@@ -86,8 +86,8 @@ function QuanLyMonHoc() {
       
       {/* KHUNG TIÊU ĐỀ HỆ THỐNG */}
       <div className="max-w-5xl mx-auto bg-linear-to-r from-blue-700 to-indigo-800 rounded-2xl shadow-md p-6 mb-6 text-white">
-        <h1 className="text-xl sm:text-2xl font-extrabold tracking-wider uppercase">
-          HỆ THỐNG QUẢN LÝ KPI GIẢNG VIÊN
+        <h1 className="text-xl sm:text-2xl font-extrabold tracking-wider uppercase text-[#FFD700]">
+          HỆ THỐNG QUẢN LÝ HOẠT ĐỘNG KHOA ĐIỆN TỬ - TIN HỌC
         </h1>
         <p className="text-xs sm:text-sm text-blue-100 mt-1.5 font-medium opacity-90">
           Phân hệ chuyên môn: Quản lý Danh mục Môn học & Mô-đun (`DANH_MUC_MH_MODUN`)

@@ -58,9 +58,9 @@ const TeacherNavbar = () => {
                             <Link to="/phan-cong-giang-day" className="px-3 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition">
                                 Phân công giảng dạy
                             </Link>
-                           {/* <Link to="/quan-ly-mon-hoc" className="px-3 py-2 rounded-lg hover:bg-blue-700 transition">
+                            <Link to="/quan-ly-mon-hoc" className="px-3 py-2 rounded-lg hover:bg-blue-700 transition">
                                 Môn học
-                            </Link> */}
+                            </Link> *
                         </>
                     )}
 

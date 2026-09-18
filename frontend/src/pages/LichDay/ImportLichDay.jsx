@@ -1,21 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-//import api from '../api/axiosClient';
+import api from '../../api/axiosClient'; // 👈 Import module api chuẩn từ thư mục api
+
 const ImportLichDay = () => {
     const [danhSachGiangVien, setDanhSachGiangVien] = useState([]);
     const [selectedGV, setSelectedGV] = useState('');
     const [fileExcel, setFileExcel] = useState(null);
     const [loading, setLoading] = useState(false);
     
-    // Bổ sung useRef để quản lý và reset thẻ input file vật lý sau khi nạp thành công
+    // Quản lý và reset thẻ input file vật lý sau khi nạp thành công
     const fileInputRef = useRef(null);
 
     // Tải danh sách giảng viên khi màn hình khởi tạo để đổ vào Dropdown
     useEffect(() => {
         const fetchGiangVien = async () => {
             try {
-               const res = await axios.get('http://localhost:5000/api/lecturers'); 
-              // const res = await api.get('/api/lecturers');
+                // Sử dụng api client (tự động gắn baseURL theo môi trường Vercel hoặc localhost)
+                const res = await api.get('/api/lecturers'); 
                 const data = Array.isArray(res.data) ? res.data : res.data.data || [];
                 setDanhSachGiangVien(data);
             } catch (err) {
@@ -42,20 +42,19 @@ const ImportLichDay = () => {
 
         const formData = new FormData();
         formData.append('file', fileExcel);
-        
-        // ĐỒNG BỘ 100%: Truyền tải chính xác trường mã định danh viết hoa liền nhau
         formData.append('MA_GIANGVIEN', selectedGV); 
 
         try {
             setLoading(true);
-            const response = await axios.post('http://localhost:5000/api/lich-day/import-excel', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            });
+            
+            // Sử dụng api client. Interceptor trong axiosClient sẽ tự động xóa 'Content-Type' 
+            // để trình duyệt sinh boundary chuẩn cho FormData.
+            const response = await api.post('/api/lich-day/import-excel', formData);
 
             if (response.data.success) {
                 alert(response.data.message);
                 
-                // Làm sạch trạng thái lưu trữ và reset thẻ input vật lý về rỗng
+                // Làm sạch trạng thái và reset thẻ input vật lý về rỗng
                 setFileExcel(null);
                 if (fileInputRef.current) {
                     fileInputRef.current.value = '';
@@ -72,7 +71,7 @@ const ImportLichDay = () => {
     return (
         <div className="max-w-xl mx-auto my-10 bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-100">
             
-            {/* BANNER HEADER - KHỐI TIÊU ĐỀ HỆ THỐNG */}
+            {/* BANNER HEADER */}
             <div className="bg-blue-600 px-6 py-5 text-center">
                 <h2 className="text-xl font-extrabold uppercase tracking-widest text-[#FFD700]">
                     Nạp tiến độ giảng dạy học phần
@@ -98,7 +97,6 @@ const ImportLichDay = () => {
                     >
                         <option value="">-- Chọn Thầy/Cô giảng dạy --</option>
                         {danhSachGiangVien.map((gv) => (
-                            // ĐỊNH DANH CHUẨN XÁC: Ánh xạ chuẩn theo MA_GIANGVIEN và tên cột HOTEN của SQL Server
                             <option key={gv.MA_GIANGVIEN} value={gv.MA_GIANGVIEN}>
                                 {gv.MA_GIANGVIEN} - {gv.HOTEN}
                             </option>
@@ -114,7 +112,7 @@ const ImportLichDay = () => {
                     <div className="border-2 border-dashed border-slate-200 hover:border-blue-400 rounded-2xl p-6 text-center bg-slate-50/50 transition cursor-pointer relative">
                         <input
                             type="file"
-                            ref={fileInputRef} // Gắn tham chiếu vật lý vào đây
+                            ref={fileInputRef}
                             accept=".xls,.xlsx"
                             onChange={handleFileChange}
                             required
